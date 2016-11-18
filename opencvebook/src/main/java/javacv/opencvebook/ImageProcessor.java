@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
 import org.opencv.core.Mat;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
 
 public class ImageProcessor {
 
@@ -19,6 +21,16 @@ public class ImageProcessor {
 		final byte[] targetPixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 		System.arraycopy(buffer, 0, targetPixels, 0, buffer.length);  
 		return image;
+	}
+	
+	public Mat blur(Mat input, int numberOfTimes){
+		Mat sourceImage = new Mat();
+		Mat destImage = input.clone();
+		for(int i=0;i<numberOfTimes;i++){
+			sourceImage = destImage.clone();
+			Imgproc.blur(sourceImage, destImage, new Size(3.0, 3.0));
+		}
+		return destImage;
 	}
 	
 }
